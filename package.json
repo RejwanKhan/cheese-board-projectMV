@@ -11,5 +11,18 @@
     "url": "git+https://github.com/MultiverseLearningProducts/cheese-boards.git"
   },
   "keywords": [],
-  "author": "Multiverse Learning Products"
+  "author": "Multiverse Learning Products",
+  "bugs": {
+    "url": "https://github.com/MultiverseLearningProducts/cheese-boards/issues"
+  },
+  "homepage": "https://github.com/MultiverseLearningProducts/cheese-boards#readme",
+  "directories": {
+    "test": "tests"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.4.3",
+    "sequelize": "^6.28.0",
+    "sqlite3": "^5.1.4"
+  }
 }

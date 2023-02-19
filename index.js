@@ -82,6 +82,19 @@ const main = async () => {
   await FrenchBoard.addCheese(3);
   await SoftBoard.addCheese(2);
   await BlockBoard.addCheese(4);
+
+  //EAGAR LOADING
+
+  //Eagar Loading One To Many Relationship between Users and Boards
+
+  const firstUser = await Users.findByPk(1, { include: [{ model: Board }] });
+  const secondUser = await Users.findByPk(2, { include: [{ model: Board }] });
+  const thirdUser = await Users.findByPk(3, { include: [{ model: Board }] });
+  console.log(JSON.stringify(firstUser, null, 2));
+
+  console.log(JSON.stringify(firstUser.Boards[0].type, null, 2));
+  console.log(JSON.stringify(secondUser.Boards[0].type, null, 2));
+  console.log(JSON.stringify(thirdUser.Boards[0].type, null, 2));
 };
 
 main();

@@ -24,7 +24,7 @@ beforeEach(async () => {
       rating: 3,
     },
     {
-      type: "Block of Cheeses Board ",
+      type: "Block of Cheeses Board",
       description: "A board full of various types of cheeses but in blocks ",
       rating: 2,
     },
@@ -82,5 +82,43 @@ describe("EagarLoading tests within a Many to Many relationship", () => {
 
     expect(secondCheeseBoard.Cheeses[0].title).toEqual("ricotta");
     expect(thirdCheeseBoard.Cheeses[0].title).toEqual("Chedder Cheese");
+  });
+
+  it("Cheeses can be Loaded with its boards", async () => {
+    const FrenchBoard = await Board.findByPk(1);
+    const SoftBoard = await Board.findByPk(2);
+    const BlockBoard = await Board.findByPk(3);
+
+    await FrenchBoard.addCheese(1);
+    await FrenchBoard.addCheese(3);
+    await SoftBoard.addCheese(2);
+    await BlockBoard.addCheese(4);
+
+    //Eagar Loading Cheeses with its board
+    const firstCheeseWithBoards = await Cheese.findByPk(1, {
+      include: { model: Board },
+    });
+    const secondCheeseWithBoards = await Cheese.findByPk(2, {
+      include: { model: Board },
+    });
+    const thirdCheeseWithBoards = await Cheese.findByPk(3, {
+      include: { model: Board },
+    });
+    const fourthCheeseWithBoards = await Cheese.findByPk(4, {
+      include: { model: Board },
+    });
+
+    //tests
+
+    expect(firstCheeseWithBoards.Boards[0].type).toEqual(
+      "French Cheeses Board"
+    );
+    expect(secondCheeseWithBoards.Boards[0].type).toEqual("Soft Cheese Board");
+    expect(thirdCheeseWithBoards.Boards[0].type).toEqual(
+      "French Cheeses Board"
+    );
+    expect(fourthCheeseWithBoards.Boards[0].type).toEqual(
+      "Block of Cheeses Board"
+    );
   });
 });

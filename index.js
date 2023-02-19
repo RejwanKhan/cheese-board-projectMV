@@ -109,6 +109,12 @@ const main = async () => {
 
   console.log(JSON.stringify(firstCheeseBoard, null, 2));
   console.log(JSON.stringify(secondCheeseBoard, null, 2));
+
+  //Eagar Loading Cheeses with its board
+  const firstCheeseF = await Cheese.findByPk(1, {
+    include: [{ model: Board }],
+  });
+  console.log(JSON.stringify(firstCheeseF, null, 2));
 };
 
 main();

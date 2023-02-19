@@ -95,6 +95,20 @@ const main = async () => {
   console.log(JSON.stringify(firstUser.Boards[0].type, null, 2));
   console.log(JSON.stringify(secondUser.Boards[0].type, null, 2));
   console.log(JSON.stringify(thirdUser.Boards[0].type, null, 2));
+
+  //Eagar Loading Many to Many Relationship between Cheeses and Boards
+  const firstCheeseBoard = await Board.findByPk(1, {
+    include: [{ model: Cheese }],
+  });
+  const secondCheeseBoard = await Board.findByPk(2, {
+    include: [{ model: Cheese }],
+  });
+  const thirdCheeseBoard = await Board.findByPk(3, {
+    include: [{ model: Cheese }],
+  });
+
+  console.log(JSON.stringify(firstCheeseBoard, null, 2));
+  console.log(JSON.stringify(secondCheeseBoard, null, 2));
 };
 
 main();

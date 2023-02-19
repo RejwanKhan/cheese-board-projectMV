@@ -38,7 +38,7 @@ beforeEach(async () => {
   ]);
 });
 
-afterEach(async () => {
+afterAll(async () => {
   await sequelize.sync({ force: true });
 });
 

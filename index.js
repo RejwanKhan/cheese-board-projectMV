@@ -8,6 +8,10 @@ const { ShowCase } = require("./models/ShowCase");
 Users.hasMany(Board);
 Board.belongsTo(Users);
 
+//Make a Many to Many Relationship between Cheeses and Boards
+Board.belongsToMany(Cheese, { through: ShowCase });
+Cheese.belongsToMany(Board, { through: ShowCase });
+
 const main = async () => {
   await sequelize.sync({ force: true });
 
@@ -48,6 +52,36 @@ const main = async () => {
   await rejwan.addBoard(2);
   await diogo.addBoard(3);
   await john.addBoard(1);
+
+  //MANY TO MANY ASSOCIATION
+
+  //Bulk Creating Cheeses (We already Have Boards), Use ShowCase as Junction Table
+
+  await Cheese.bulkCreate([
+    { title: "Camembert", description: "A classic French Cheese" },
+    {
+      title: "ricotta",
+      description: "Soft Cheese from Italy, perfect for your lasagna",
+    },
+    {
+      title: "Brie",
+      description:
+        "A classic French Cheese which is a type of cow's milk cheese",
+    },
+    { title: "Chedder Cheese", description: "A block of Cheese From Britain" },
+  ]);
+
+  //MAKING THE ASSOCIATION BETWEEN BOARDS AND CHEESE
+  // 1 : 1 , 1 : 3 , 2: 2, 3: 4
+
+  const FrenchBoard = await Board.findByPk(1);
+  const SoftBoard = await Board.findByPk(2);
+  const BlockBoard = await Board.findByPk(3);
+
+  await FrenchBoard.addCheese(1);
+  await FrenchBoard.addCheese(3);
+  await SoftBoard.addCheese(2);
+  await BlockBoard.addCheese(4);
 };
 
 main();
